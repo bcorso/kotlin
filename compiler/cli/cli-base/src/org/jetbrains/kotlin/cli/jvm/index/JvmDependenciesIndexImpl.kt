@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.cli.jvm.index
 
 import com.intellij.openapi.vfs.VirtualFile
 import org.jetbrains.kotlin.name.ClassId
+import org.jetbrains.kotlin.name.FqName
 import kotlin.concurrent.withLock
 
 class JvmDependenciesIndexImpl(
@@ -16,6 +17,14 @@ class JvmDependenciesIndexImpl(
     // holds the request and the result last time we searched for class
     // helps improve several scenarios, LazyJavaResolverContext.findClassInJava being the most important
     private var lastClassVirtualFileSearch: Pair<ClassSearchRequest, Collection<VirtualFile>>? = null
+
+    override fun traverseVirtualFilesInPackage(
+        packageFqName: FqName,
+        acceptedRootTypes: Set<JavaRoot.RootType>,
+        continueSearch: (VirtualFile, JavaRoot.RootType) -> Boolean
+    ) {
+        traverseVirtualFilesInPackageInternal(packageFqName, acceptedRootTypes, continueSearch)
+    }
 
     override fun findClassVirtualFiles(
         classId: ClassId,

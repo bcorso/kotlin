@@ -76,7 +76,7 @@ abstract class JvmDependenciesIndexBase(
         }
     }
 
-    final override fun traverseVirtualFilesInPackage(
+    protected fun traverseVirtualFilesInPackageInternal(
         packageFqName: FqName,
         acceptedRootTypes: Set<JavaRoot.RootType>,
         continueSearch: (VirtualFile, JavaRoot.RootType) -> Boolean
